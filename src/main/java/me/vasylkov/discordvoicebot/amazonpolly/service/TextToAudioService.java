@@ -1,9 +1,8 @@
-package me.vasylkov.discordvoicebot.tiktok.service;
+package me.vasylkov.discordvoicebot.amazonpolly.service;
 
 import lombok.RequiredArgsConstructor;
-import me.vasylkov.discordvoicebot.amazonpolly.service.PollySynthesizer;
-import me.vasylkov.discordvoicebot.discordaudio.service.AudioLoader;
 import me.vasylkov.discordvoicebot.discordaudio.service.TempSynthAudioFileManager;
+import me.vasylkov.discordvoicebot.jda.service.MessagesSender;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -12,23 +11,24 @@ import java.nio.file.Path;
 
 @Service
 @RequiredArgsConstructor
-public class CommentToAudioService
+public class TextToAudioService
 {
     private final PollySynthesizer pollySynthesizer;
-    private final AudioLoader audioLoader;
     private final TempSynthAudioFileManager audioFileManager;
+    private final MessagesSender messagesSender;
 
-    public void convertCommentToAudio(String comment)
+    public String convertCommentToAudioFile(String comment)
     {
         try (InputStream synthText = pollySynthesizer.synthesize(comment))
         {
             Path path = audioFileManager.createTempFile(synthText);
-            audioLoader.loadAudio(path.toAbsolutePath().toString());
+            return path.toAbsolutePath().toString();
             /*audioFileManager.deleteTempFile(path);*/
         }
         catch (IOException e)
         {
-            e.printStackTrace();
+            messagesSender.sendMessageToLastChannel("Ошибка конвертации текста в аудио с причиной: " + e.getMessage());
+            return null;
         }
     }
 }

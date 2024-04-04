@@ -26,6 +26,11 @@ public class TrackQueueManager
         }
     }
 
+    public void playTrackImmediately(AudioTrack track)
+    {
+        getAudioPlayer().startTrack(track, false);
+    }
+
     public void nextTrack()
     {
         getAudioPlayer().startTrack(queue.poll(), false);
