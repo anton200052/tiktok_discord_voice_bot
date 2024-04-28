@@ -1,8 +1,8 @@
 package me.vasylkov.discordvoicebot;
-
-import me.vasylkov.discordvoicebot.tiktok.configuration.ActionsPropertiesConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import me.vasylkov.discordvoicebot.tiktok.configuration.ActionsPropertiesConfig;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 import java.io.IOException;
